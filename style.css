@@ -1,0 +1,162 @@
+/* ===============================
+   KAIRO — Estilo Base
+   =============================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+    color: #fff;
+}
+
+/* 🌑 Contenedor principal */
+#app {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 🌿 Wrapper horizontal expandido */
+#garden-wrapper {
+    width: 5000px; /* Se expandirá dinámicamente luego */
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+}
+
+/* Ocultar scrollbar */
+#garden-wrapper::-webkit-scrollbar {
+    display: none;
+}
+#garden-wrapper {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* 🌱 Jardín */
+#garden {
+    position: relative;
+    width: 5000px;
+    height: 100%;
+}
+
+/* 🌫️ Capa de clima */
+#weather-layer {
+    position: absolute;
+    width: 5000px;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+    opacity: 0;
+    transition: opacity 2s ease;
+}
+
+/* 🌿 Planta base */
+.plant {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border: 1px solid white;
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: transform 1.5s ease, opacity 1.5s ease;
+}
+
+.plant.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* 🧠 Mensajes */
+#message-container {
+    position: absolute;
+    bottom: 40px;
+    width: 100%;
+    text-align: center;
+    font-weight: 300;
+    font-size: 14px;
+    letter-spacing: 1px;
+    opacity: 0.7;
+}
+
+/* ⚙️ Botón configuración */
+#settings-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+#settings-button:hover {
+    opacity: 1;
+}
+
+/* 🌿 Panel configuración */
+#settings-panel {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: rgba(0,0,0,0.9);
+    border: 1px solid white;
+    padding: 20px;
+    width: 220px;
+    z-index: 10;
+}
+
+#settings-panel h2 {
+    font-weight: 300;
+    margin-bottom: 15px;
+}
+
+#settings-panel button {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+    background: none;
+    border: 1px solid white;
+    color: white;
+    cursor: pointer;
+    font-weight: 300;
+}
+
+#settings-panel button:hover {
+    background: white;
+    color: black;
+}
+
+.hidden {
+    display: none;
+}
+
+/* 🎧 Botón sonido */
+#sound-toggle {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    opacity: 0.6;
+}
+#sound-toggle:hover {
+    opacity: 1;
+}
