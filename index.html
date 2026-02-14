@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KAIRO</title>
+
+    <!-- Fuente minimalista -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <!-- 🌑 Contenedor Principal -->
+    <div id="app">
+
+        <!-- 🌿 Espacio Expandido del Jardín -->
+        <div id="garden-wrapper">
+
+            <!-- 🌫️ Capa de Clima -->
+            <div id="weather-layer"></div>
+
+            <!-- 🌱 Ecosistema Horizontal -->
+            <div id="garden"></div>
+
+        </div>
+
+        <!-- 🧠 Mensaje Evolutivo -->
+        <div id="message-container">
+            <p id="garden-message">
+                El jardín está en calma.
+            </p>
+        </div>
+
+        <!-- ⚙️ Botón Configuración -->
+        <button id="settings-button">⚙︎</button>
+
+        <!-- 🌿 Panel Configuración -->
+        <div id="settings-panel" class="hidden">
+            <h2>KAIRO</h2>
+
+            <button id="backup-btn">Respaldar jardín</button>
+            <button id="restore-btn">Restaurar jardín</button>
+            <button id="reset-btn">Reiniciar jardín</button>
+
+            <input type="file" id="file-input" accept=".json" class="hidden" />
+        </div>
+
+        <!-- 🎧 Control Sonido -->
+        <button id="sound-toggle">🔈</button>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
