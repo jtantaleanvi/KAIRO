@@ -9,10 +9,13 @@
 }
 
 body {
+    margin: 0;
     background:
         radial-gradient(circle at 20% 30%, #111 0%, transparent 40%),
         radial-gradient(circle at 80% 70%, #0a0a0a 0%, transparent 40%),
         #000;
+    color: white;
+    font-family: 'Inter', sans-serif;
 }
 /* 🌑 Contenedor principal */
 #app {
