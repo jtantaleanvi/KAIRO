@@ -18,7 +18,27 @@
 
         <!-- 🌿 Espacio Expandido del Jardín -->
         <div id="garden-wrapper">
+<div id="daily-check">
 
+    <div class="question">
+        ¿Cuántas horas usaste el móvil hoy?
+    </div>
+
+    <input id="hours-input" type="number" step="0.1" min="0" max="24" placeholder="7.5">
+
+    <div class="question small">
+        ¿Cómo te sentiste?
+    </div>
+
+    <div id="mood-buttons">
+        <button data-mood="good">🙂</button>
+        <button data-mood="neutral">😐</button>
+        <button data-mood="bad">🙁</button>
+    </div>
+
+    <button id="save-day">Registrar</button>
+
+</div>
             <!-- 🌫️ Capa de Clima -->
             <div id="weather-layer"></div>
 
