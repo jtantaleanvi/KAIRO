@@ -36,10 +36,13 @@ body {
     z-index: 1;
 }
 
-#garden-ui {
-    position: absolute;
-    z-index: 10;
-    pointer-events: auto;
+#garden-ui{
+    position: fixed;
+    left: 50%;
+    top: 55%;
+    transform: translate(-50%, -50%);
+    z-index: 20;
+}
 }
 #garden-wrapper {
     width: 5000px;
