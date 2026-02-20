@@ -1,7 +1,14 @@
 /* ===============================
    KAIRO — Script Base
    =============================== */
+window.addEventListener("load", () => {
+    document.body.style.opacity = 0;
 
+    setTimeout(() => {
+        document.body.style.transition = "opacity 2s ease";
+        document.body.style.opacity = 1;
+    }, 200);
+});
 const garden = document.getElementById("garden");
 const wrapper = document.getElementById("garden-wrapper");
 const settingsBtn = document.getElementById("settings-button");
