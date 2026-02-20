@@ -78,7 +78,16 @@ body {
     opacity: 1;
     transform: scale(1);
 }
+.plant svg {
+    width: 80px;
+    height: 80px;
+    opacity: 0.9;
+}
 
+.plant:hover svg {
+    opacity: 1;
+    transform: scale(1.05);
+}
 /* 🧠 Mensajes */
 #message-container {
     position: absolute;
