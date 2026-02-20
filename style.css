@@ -9,12 +9,11 @@
 }
 
 body {
-    background-color: #000;
-    font-family: 'Inter', sans-serif;
-    overflow: hidden;
-    color: #fff;
+    background:
+        radial-gradient(circle at 20% 30%, #111 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, #0a0a0a 0%, transparent 40%),
+        #000;
 }
-
 /* 🌑 Contenedor principal */
 #app {
     width: 100vw;
@@ -40,15 +39,30 @@ body {
     display: none;
 }
 #garden-wrapper {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
 }
 
+@keyframes breathe {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-4px); }
+    100% { transform: translateY(0px); }
+}
+
+.plant {
+    opacity: 0;
+    transition: opacity 2s ease;
+}
+
+.plant.visible {
+    opacity: 1;
+}
 /* 🌱 Jardín */
 #garden {
     position: relative;
     width: 5000px;
-    height: 100%;
+    height: 100vh;
 }
 
 /* 🌫️ Capa de clima */
