@@ -44,21 +44,20 @@ function loadData() {
    Plantas
    =============================== */
 
-function createPlant(x, y, scale = 1) {
+function createPlant(x, y, scale = 1, type = "sprout") {
+
     const plant = document.createElement("div");
     plant.classList.add("plant");
     plant.style.left = x + "px";
     plant.style.top = y + "px";
     plant.style.transform = `scale(${scale})`;
+    plant.innerHTML = getPlantSVG(type);
     garden.appendChild(plant);
-
     setTimeout(() => {
         plant.classList.add("visible");
     }, 100);
-
     return plant;
 }
-
 function addRandomPlant() {
     const x = Math.random() * 4800 + 100;
     const y = Math.random() * (window.innerHeight - 200) + 100;
@@ -72,10 +71,42 @@ function addRandomPlant() {
 function renderPlants() {
     garden.innerHTML = "";
     kairoData.plants.forEach(p => {
-        createPlant(p.x, p.y, p.scale);
+        createPlant(p.x, p.y, p.scale, p.type);
     });
 }
+function getPlantSVG(type) {
+    const plants = {
+        sprout: `
+        <svg width="80" height="80" viewBox="0 0 80 80">
+            <line x1="40" y1="70" x2="40" y2="40" stroke="white" stroke-width="2"/>
+            <path d="M40 45 C30 35, 20 40, 40 55" stroke="white" fill="none"/>
+            <path d="M40 45 C50 35, 60 40, 40 55" stroke="white" fill="none"/>
+        </svg>
+        `,
+        grass: `
+        <svg width="80" height="80" viewBox="0 0 80 80">
+            <path d="M20 70 Q30 40 40 70" stroke="white" fill="none"/>
+            <path d="M40 70 Q50 35 60 70" stroke="white" fill="none"/>
+            <path d="M30 70 Q35 45 45 70" stroke="white" fill="none"/>
+        </svg>
+        `,
+        flower: `
+        <svg width="80" height="80" viewBox="0 0 80 80">
+            <line x1="40" y1="70" x2="40" y2="40" stroke="white"/>
+            <circle cx="40" cy="35" r="6" stroke="white" fill="none"/>
+            <circle cx="40" cy="35" r="2" fill="white"/>
+        </svg>
+        `,
+        reed: `
+        <svg width="80" height="80" viewBox="0 0 80 80">
+            <line x1="40" y1="70" x2="38" y2="20" stroke="white"/>
+            <ellipse cx="38" cy="20" rx="4" ry="8" stroke="white" fill="none"/>
+        </svg>
+        `
+    };
 
+    return plants[type];
+}
 /* ===============================
    Configuración
    =============================== */
