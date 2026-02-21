@@ -1,5 +1,5 @@
 /* =========================================
-   KAIRO — Identidad Visual
+   KAIRO — Identidad Visual (Corregida)
    ========================================= */
 
 :root {
@@ -22,18 +22,17 @@ body {
         #000;
     color: var(--text);
     font-family: 'Inter', sans-serif;
-    overflow: hidden; /* Evita que la página rebote */
+    overflow: hidden;
     user-select: none;
 }
 
-/* 🌑 Contenedor Principal */
+/* 🌑 Contenedores */
 #app {
     width: 100vw;
     height: 100vh;
     position: relative;
 }
 
-/* 🌿 Jardín Horizontal */
 #garden-wrapper {
     width: 100%;
     height: 100%;
@@ -46,50 +45,43 @@ body {
     z-index: 1;
 }
 
-/* Ocultar barra de scroll para máxima inmersión */
-#garden-wrapper::-webkit-scrollbar {
-    display: none;
-}
+#garden-wrapper::-webkit-scrollbar { display: none; }
 
 #garden {
     position: relative;
-    width: 5000px; /* Extensión del ecosistema */
+    width: 5000px; 
     height: 100vh;
-    background: linear-gradient(to bottom, transparent 70%, rgba(255,255,255,0.03) 100%);
 }
 
-#weather-layer {
-    position: absolute;
-    width: 5000px;
-    height: 100%;
-    pointer-events: none;
-    z-index: 2;
-}
-
-/* 🌱 Estilo de las Plantas (Actualizado: sin círculos) */
+/* 🌱 Estilo de las Plantas */
 .plant {
     position: absolute;
-    width: 100px; /* Un poco más grande para el girasol */
+    width: 100px;
     height: 100px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-end; /* Crece desde abajo */
+    justify-content: flex-end;
     opacity: 0;
     transform: scale(0.5) translateY(20px);
     transition: transform 2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 2s ease;
 }
-/* Burbuja de texto minimalista */
-plant-message strong { display: block; text-transform: uppercase; margin-bottom: 4px; }
+
+.plant.visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+/* 💬 Burbuja de Texto (Mensajes, Nombre y Leyenda) */
+.plant-message {
     position: absolute;
     bottom: 110%;
-    background: rgba(0, 0, 0, 0.8); /* Un poco más oscuro para leer mejor */
+    background: rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(8px);
     padding: 12px 16px;
     border-radius: 12px;
     font-size: 11px;
-    width: 200px; /* Ancho fijo para que el texto fluya */
-    white-space: normal; /* Permite varias líneas */
+    width: 220px;
     color: white;
     opacity: 0;
     transition: all 0.4s ease;
@@ -98,71 +90,66 @@ plant-message strong { display: block; text-transform: uppercase; margin-bottom:
     z-index: 20;
     text-align: left;
     line-height: 1.4;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+.plant:hover .plant-message {
+    opacity: 1;
+    transform: translateY(-5px);
 }
 
 .plant-message strong {
     display: block;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
     margin-bottom: 4px;
     border-bottom: 0.5px solid rgba(255,255,255,0.2);
     padding-bottom: 4px;
+    font-size: 10px;
 }
 
-.plant-legend { font-style: italic; opacity: 0.7; display: block; margin-bottom: 5px; }
+.plant-legend {
     font-style: italic;
-    opacity: 0.7;
+    opacity: 0.6;
     margin-bottom: 8px;
     display: block;
-}
-.plant:hover .plant-message {
-    opacity: 1;
-}
-.plant.visible {
-    opacity: 1;
-    transform: scale(1) translateY(0);
+    font-size: 10px;
 }
 
+.plant-message p {
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+/* 🎨 Animación y SVG */
 .plant svg {
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: 80%;
     stroke: white;
-    stroke-width: 1.5;
+    stroke-width: 1.2;
     fill: none;
     animation: sway 5s ease-in-out infinite alternate;
     transform-origin: bottom center;
 }
 
 @keyframes sway {
-    from { transform: rotate(-3deg); }
-    to { transform: rotate(3deg); }
+    from { transform: rotate(-2deg); }
+    to { transform: rotate(2deg); }
 }
 
-/* 📋 Interfaz de Registro (Daily Check) */
+/* 📋 UI de Registro */
 #daily-check {
     position: fixed;
-    bottom: 100px;
+    bottom: 80px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
     text-align: center;
-    background: rgba(0, 0, 0, 0.4);
-    padding: 20px;
-    border-radius: 20px;
-    backdrop-filter: blur(5px);
-}
-
-.question {
-    font-weight: 300;
-    font-size: 14px;
-    letter-spacing: 1px;
-    margin-bottom: 15px;
-    opacity: 0.8;
-}
-
-.question.small {
-    margin-top: 20px;
-    font-size: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 25px;
+    border-radius: 25px;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
 #hours-input {
@@ -171,132 +158,14 @@ plant-message strong { display: block; text-transform: uppercase; margin-bottom:
     border-bottom: 1px solid white;
     color: white;
     text-align: center;
-    font-size: 24px;
-    font-family: 'Inter', sans-serif;
-    width: 80px;
+    font-size: 28px;
+    width: 60px;
     outline: none;
-    padding-bottom: 5px;
-}
-
-#mood-buttons {
-    margin: 15px 0;
+    margin: 10px 0;
 }
 
 #mood-buttons button {
     background: none;
     border: 1px solid var(--border);
     color: white;
-    font-size: 20px;
-    padding: 8px 12px;
-    margin: 0 5px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-#mood-buttons button:hover, #mood-buttons button.active {
-    background: white;
-    transform: scale(1.1);
-}
-
-#mood-buttons button.active {
-    box-shadow: 0 0 15px rgba(255,255,255,0.3);
-}
-
-#save-day {
-    margin-top: 15px;
-    padding: 10px 25px;
-    background: transparent;
-    border: 1px solid white;
-    color: white;
-    border-radius: 30px;
-    cursor: pointer;
-    font-size: 12px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    transition: 0.3s;
-}
-
-#save-day:hover {
-    background: white;
-    color: black;
-}
-
-/* 🧠 Mensajes y Configuración */
-#message-container {
-    position: fixed;
-    bottom: 40px;
-    width: 100%;
-    text-align: center;
-    z-index: 5;
-}
-
-#garden-message {
-    font-size: 13px;
-    font-weight: 300;
-    letter-spacing: 1px;
-    opacity: 0.5;
-}
-
-#settings-button {
-    position: fixed;
-    top: 30px;
-    right: 30px;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-    z-index: 100;
-    opacity: 0.4;
-    transition: 0.3s;
-}
-
-#settings-button:hover { opacity: 1; }
-
-#settings-panel {
-    position: fixed;
-    top: 80px;
-    right: 30px;
-    background: rgba(0, 0, 0, 0.95);
-    border: 1px solid var(--border);
-    padding: 25px;
-    width: 260px;
-    z-index: 100;
-    backdrop-filter: blur(10px);
-}
-
-#settings-panel h2 { font-weight: 300; font-size: 18px; margin-bottom: 5px; }
-#settings-panel p { font-size: 10px; opacity: 0.5; margin-bottom: 20px; }
-
-#settings-panel button {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    background: transparent;
-    border: 1px solid var(--border);
-    color: white;
-    cursor: pointer;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-#settings-panel button:hover {
-    border-color: white;
-}
-
-#sound-toggle {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-    opacity: 0.4;
-    z-index: 100;
-}
-
-.hidden { display: none; }
+    font-size: 18
