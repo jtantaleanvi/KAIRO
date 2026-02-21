@@ -26,16 +26,6 @@ let kairoData = {
    Scroll Horizontal Suave
    =============================== */
 
-gardenWrapper.addEventListener("dblclick", (e) => {
-    const plant = document.createElement("div");
-    plant.classList.add("plant");
-
-    plant.style.left = e.offsetX + "px";
-    plant.style.top = e.offsetY + "px";
-
-    gardenWrapper.appendChild(plant);
-});
-
 wrapper.addEventListener("wheel", (e) => {
     e.preventDefault();
     wrapper.scrollLeft += e.deltaY * 0.6;
@@ -186,4 +176,3 @@ resetBtn.addEventListener("click", () => {
 
 loadData();
 
-document.addEventListener("dblclick", addRandomPlant);
