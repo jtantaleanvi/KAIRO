@@ -176,3 +176,31 @@ resetBtn.addEventListener("click", () => {
 
 loadData();
 
+let selectedMood = null;
+
+document.querySelectorAll("#mood-buttons button").forEach(btn => {
+    btn.addEventListener("click", () => {
+
+        document.querySelectorAll("#mood-buttons button")
+        .forEach(b => b.classList.remove("active"));
+
+        btn.classList.add("active");
+        selectedMood = btn.dataset.mood;
+    });
+});
+const saveDayBtn = document.getElementById("save-day");
+const hoursInput = document.getElementById("hours-input");
+
+saveDayBtn.addEventListener("click", () => {
+
+    const hours = parseFloat(hoursInput.value);
+
+    if(isNaN(hours)) return;
+
+    let plantCount = Math.max(1, Math.round(hours / 2));
+
+    for(let i=0;i<plantCount;i++){
+        addRandomPlant();
+    }
+
+});
