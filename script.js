@@ -92,15 +92,16 @@ function saveData() {
    ========================================= */
 
 function addRandomPlant(mood) {
-    // Definimos posición aleatoria en el eje X (extensión del jardín)
+  function addRandomPlant(mood) {
     const x = Math.random() * 4600 + 200;
-    // Definimos posición Y (centrado verticalmente para que no flote ni se pegue al borde)
     const y = Math.random() * (window.innerHeight - 350) + 150;
     const scale = 0.8 + Math.random() * 0.6;
     
-    // Asignación de especie según ánimo
     let type = "sprout";
-    if (mood === "good") type = "sunflower";
+    if (mood === "good") {
+        // Elige aleatoriamente entre Girasol o Loto
+        type = Math.random() > 0.5 ? "sunflower" : "lotus";
+    }
     if (mood === "neutral") type = "reed";
     if (mood === "bad") type = "grass";
 
@@ -111,12 +112,8 @@ function addRandomPlant(mood) {
     renderPlants();
     updateMessage();
 
-    // 🚀 AUTO-SCROLL: Lleva la vista hacia donde nació la planta
     setTimeout(() => {
-        wrapper.scrollTo({
-            left: x - (window.innerWidth / 2),
-            behavior: 'smooth'
-        });
+        wrapper.scrollTo({ left: x - (window.innerWidth / 2), behavior: 'smooth' });
     }, 400);
 }
 
@@ -128,26 +125,27 @@ function renderPlants() {
 }
 
 function createPlantElement(x, y, scale, type) {
+    function createPlantElement(x, y, scale, type) {
     const plantDiv = document.createElement("div");
     plantDiv.classList.add("plant");
     plantDiv.style.left = `${x}px`;
     plantDiv.style.top = `${y}px`;
     plantDiv.style.transform = `scale(${scale})`;
     
-    // Elegimos una frase aleatoria para esta planta específica
+    const species = botanicalLibrary[type] || botanicalLibrary.sprout;
     const randomPhrase = kairoPhrases[Math.floor(Math.random() * kairoPhrases.length)];
     
     plantDiv.innerHTML = `
-        <div class="plant-message">${randomPhrase}</div>
+        <div class="plant-message">
+            <strong>${species.name}</strong>
+            <span class="plant-legend">${species.legend}</span>
+            <p>"${randomPhrase}"</p>
+        </div>
         ${getPlantSVG(type)}
     `;
     
     garden.appendChild(plantDiv);
-
-    // Animación de entrada
-    setTimeout(() => {
-        plantDiv.classList.add("visible");
-    }, 100);
+    setTimeout(() => plantDiv.classList.add("visible"), 100);
 }
 
 function updateMessage() {
@@ -247,7 +245,7 @@ document.getElementById("reset-btn").onclick = () => {
 };
 
 /* =========================================
-   5. Diccionario Botánico (SVGs)
+   5. Diccionario Botánico (SVGs Actualizado)
    ========================================= */
 
 function getPlantSVG(type) {
@@ -259,6 +257,12 @@ function getPlantSVG(type) {
             <circle cx="40" cy="30" r="5" fill="white" />
             <path d="M40 55 Q30 45 40 45" stroke="white" fill="none" />
             <path d="M40 55 Q50 45 40 45" stroke="white" fill="none" />
+        </svg>`,
+        lotus: `
+        <svg viewBox="0 0 80 80">
+            <path d="M40 70 L40 50 M40 50 Q20 50 40 25 Q60 50 40 50" stroke="white" fill="none" />
+            <path d="M40 50 Q10 60 30 35 Q40 50 40 50" stroke="white" fill="none" />
+            <path d="M40 50 Q70 60 50 35 Q40 50 40 50" stroke="white" fill="none" />
         </svg>`,
         reed: `
         <svg viewBox="0 0 80 80">
