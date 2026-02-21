@@ -80,7 +80,7 @@ body {
     transition: transform 2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 2s ease;
 }
 /* Burbuja de texto minimalista */
-.plant-message {
+plant-message strong { display: block; text-transform: uppercase; margin-bottom: 4px; }
     position: absolute;
     bottom: 110%;
     background: rgba(0, 0, 0, 0.8); /* Un poco más oscuro para leer mejor */
@@ -109,7 +109,7 @@ body {
     padding-bottom: 4px;
 }
 
-.plant-legend {
+.plant-legend { font-style: italic; opacity: 0.7; display: block; margin-bottom: 5px; }
     font-style: italic;
     opacity: 0.7;
     margin-bottom: 8px;
