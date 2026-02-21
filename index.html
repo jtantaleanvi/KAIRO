@@ -1,32 +1,51 @@
-<div id="app">
-    <div id="garden-wrapper">
-        <div id="garden"></div>
-    </div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAIRO — Jardín de Introspección</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
 
-    <div id="daily-check">
-        <p class="question">¿Cuántas horas usaste el móvil hoy?</p>
-        <input type="number" id="hours-input" step="0.1" placeholder="0.0">
-        
-        <p class="question small">¿Cómo te sentiste?</p>
-        <div id="mood-buttons">
-            <button data-mood="good">😊</button>
-            <button data-mood="neutral">😐</button>
-            <button data-mood="bad">☹️</button>
+    <div id="app">
+        <div id="garden-wrapper">
+            <div id="garden">
+                </div>
         </div>
-        
-        <button id="save-day">Registrar en Kairo</button>
+
+        <div id="daily-check">
+            <p class="question">¿Cuántas horas usaste el móvil hoy?</p>
+            <input type="number" id="hours-input" step="0.1" placeholder="0.0">
+            
+            <p class="question small">¿Cómo estuvo tu intención hoy?</p>
+            <div id="mood-buttons">
+                <button data-mood="good" title="Día de luz">😊</button>
+                <button data-mood="neutral" title="Día en calma">😐</button>
+                <button data-mood="bad" title="Día pesado">☹️</button>
+            </div>
+            
+            <button id="save-day">REGISTRAR EN KAIRO</button>
+        </div>
+
+        <div id="message-container">
+            <p id="garden-message">El jardín está en calma.</p>
+        </div>
+
+        <button id="settings-button" title="Opciones">⚙️</button>
+
+        <div id="settings-panel" class="hidden">
+            <h2>KAIRO</h2>
+            <p>Gestión del Ecosistema</p>
+            <hr style="border: 0.5px solid rgba(255,255,255,0.1); margin: 15px 0;">
+            
+            <button id="export-btn">Respaldar Jardín (JSON)</button>
+            <button id="import-btn">Restaurar Jardín</button>
+            <button id="reset-btn" style="color: #ff5555; border-color: rgba(255,85,85,0.2);">Reiniciar Ecosistema</button>
+        </div>
     </div>
 
-    <div id="message-container">
-        <p id="garden-message">Tu ecosistema de memoria está floreciendo.</p>
-    </div>
-
-    <button id="settings-button">⚙️</button>
-    <div id="settings-panel" class="hidden">
-        <h2>KAIRO</h2>
-        <p>Gestión del Ecosistema</p>
-        <button id="export-btn">Respaldar Jardín (JSON)</button>
-        <button id="import-btn">Restaurar Jardín</button>
-        <button id="reset-btn" style="color: #ff4444;">Reiniciar Ecosistema</button>
-    </div>
-</div>
+    <script src="script.js"></script>
+</body>
+</html>
