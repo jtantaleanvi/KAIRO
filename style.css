@@ -82,20 +82,39 @@ body {
 /* Burbuja de texto minimalista */
 .plant-message {
     position: absolute;
-    bottom: 110%; /* Encima de la planta */
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(4px);
-    padding: 8px 12px;
-    border-radius: 15px;
+    bottom: 110%;
+    background: rgba(0, 0, 0, 0.8); /* Un poco más oscuro para leer mejor */
+    backdrop-filter: blur(8px);
+    padding: 12px 16px;
+    border-radius: 12px;
     font-size: 11px;
-    white-space: nowrap;
+    width: 200px; /* Ancho fijo para que el texto fluya */
+    white-space: normal; /* Permite varias líneas */
     color: white;
     opacity: 0;
-    transition: opacity 0.5s ease;
+    transition: all 0.4s ease;
     pointer-events: none;
-    border: 0.5px solid rgba(255,255,255,0.2);
+    border: 0.5px solid rgba(255,255,255,0.3);
+    z-index: 20;
+    text-align: left;
+    line-height: 1.4;
 }
 
+.plant-message strong {
+    display: block;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    border-bottom: 0.5px solid rgba(255,255,255,0.2);
+    padding-bottom: 4px;
+}
+
+.plant-legend {
+    font-style: italic;
+    opacity: 0.7;
+    margin-bottom: 8px;
+    display: block;
+}
 .plant:hover .plant-message {
     opacity: 1;
 }
