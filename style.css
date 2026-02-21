@@ -66,19 +66,39 @@ body {
     z-index: 2;
 }
 
-/* 🌱 Estilo de las Plantas */
+/* 🌱 Estilo de las Plantas (Actualizado: sin círculos) */
 .plant {
     position: absolute;
-    width: 80px;
-    height: 80px;
+    width: 100px; /* Un poco más grande para el girasol */
+    height: 100px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end; /* Crece desde abajo */
     opacity: 0;
     transform: scale(0.5) translateY(20px);
     transition: transform 2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 2s ease;
 }
+/* Burbuja de texto minimalista */
+.plant-message {
+    position: absolute;
+    bottom: 110%; /* Encima de la planta */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+    padding: 8px 12px;
+    border-radius: 15px;
+    font-size: 11px;
+    white-space: nowrap;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    border: 0.5px solid rgba(255,255,255,0.2);
+}
 
+.plant:hover .plant-message {
+    opacity: 1;
+}
 .plant.visible {
     opacity: 1;
     transform: scale(1) translateY(0);
