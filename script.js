@@ -1,23 +1,8 @@
 /* =========================================
-   KAIRO — Lógica del Ecosistema Evolutivo
+   KAIRO — Script Refactorizado y Corregido
    ========================================= */
 
-// --- Variables de Estado ---
-let kairoData = {
-    plants: []
-};
-let selectedMood = null;
-
-// --- Elementos del DOM ---
-const garden = document.getElementById("garden");
-const wrapper = document.getElementById("garden-wrapper");
-const settingsBtn = document.getElementById("settings-button");
-const settingsPanel = document.getElementById("settings-panel");
-const saveDayBtn = document.getElementById("save-day");
-const hoursInput = document.getElementById("hours-input");
-const messageEl = document.getElementById("garden-message");
-
-// --- 🧠 Las 80 Frases de Introspección (Estilo Duet / Undertale) ---
+// 1. BASE DE DATOS (Primero definimos todo lo que usaremos)
 const kairoPhrases = [
     "Ignorar el ruido no es lo mismo que el silencio.", "La resistencia es una forma de crecimiento.",
     "Lo que evitas te domina.", "Tu atención es el único recurso que no recuperas.",
@@ -61,71 +46,36 @@ const kairoPhrases = [
     "Deja que las hojas caigan. Es parte del ciclo.", "Bienvenido a Kairo. Aquí, tú eres el centro."
 ];
 
-/* =========================================
-   1. Inicialización
-   ========================================= */
+const botanicalLibrary = {
+    sunflower: { name: "Girasol de Kairo", legend: "Busca la luz en los días cortos." },
+    lotus: { name: "Loto Zen", legend: "Pureza que emerge del caos." },
+    reed: { name: "Junco de Laguna", legend: "Se dobla, pero nunca se quiebra." },
+    grass: { name: "Césped de Seda", legend: "Fuerza en la comunidad pequeña." },
+    sprout: { name: "Brote Primario", legend: "Un impulso invisible de cambio." }
+};
 
-window.addEventListener("load", () => {
-    document.body.style.opacity = 0;
-    setTimeout(() => {
-        document.body.style.transition = "opacity 2s ease";
-        document.body.style.opacity = 1;
-    }, 200);
-    loadData();
-});
+// 2. ESTADO INICIAL
+let kairoData = { plants: [] };
+let selectedMood = null;
 
-function loadData() {
-    const stored = localStorage.getItem("kairoData");
-    if (stored) {
-        kairoData = JSON.parse(stored);
-        renderPlants();
-    }
-    updateMessage();
-}
+const garden = document.getElementById("garden");
+const wrapper = document.getElementById("garden-wrapper");
+const messageEl = document.getElementById("garden-message");
+const hoursInput = document.getElementById("hours-input");
 
-function saveData() {
-    localStorage.setItem("kairoData", JSON.stringify(kairoData));
-}
-
-/* =========================================
-   2. Gestión del Jardín
-   ========================================= */
-
-function addRandomPlant(mood) {
-  function addRandomPlant(mood) {
-    const x = Math.random() * 4600 + 200;
-    const y = Math.random() * (window.innerHeight - 350) + 150;
-    const scale = 0.8 + Math.random() * 0.6;
-    
-    let type = "sprout";
-    if (mood === "good") {
-        // Elige aleatoriamente entre Girasol o Loto
-        type = Math.random() > 0.5 ? "sunflower" : "lotus";
-    }
-    if (mood === "neutral") type = "reed";
-    if (mood === "bad") type = "grass";
-
-    const newPlant = { x, y, scale, type };
-    kairoData.plants.push(newPlant);
-    
-    saveData();
-    renderPlants();
-    updateMessage();
-
-    setTimeout(() => {
-        wrapper.scrollTo({ left: x - (window.innerWidth / 2), behavior: 'smooth' });
-    }, 400);
-}
-
-function renderPlants() {
-    garden.innerHTML = ""; 
-    kairoData.plants.forEach(p => {
-        createPlantElement(p.x, p.y, p.scale, p.type);
-    });
+// 3. FUNCIONES DE DIBUJO
+function getPlantSVG(type) {
+    const svgs = {
+        sunflower: `<svg viewBox="0 0 80 80"><line x1="40" y1="70" x2="40" y2="35" stroke="white" stroke-width="1.5" /><circle cx="40" cy="30" r="12" stroke="white" fill="none" stroke-dasharray="3 2" /><circle cx="40" cy="30" r="5" fill="white" /><path d="M40 55 Q30 45 40 45" stroke="white" fill="none" /><path d="M40 55 Q50 45 40 45" stroke="white" fill="none" /></svg>`,
+        lotus: `<svg viewBox="0 0 80 80"><path d="M40 70 L40 50 M40 50 Q20 50 40 25 Q60 50 40 50" stroke="white" fill="none" /><path d="M40 50 Q10 60 30 35 Q40 50 40 50" stroke="white" fill="none" /><path d="M40 50 Q70 60 50 35 Q40 50 40 50" stroke="white" fill="none" /></svg>`,
+        reed: `<svg viewBox="0 0 80 80"><line x1="40" y1="70" x2="38" y2="20" stroke="white" stroke-width="1.5" /><ellipse cx="38" cy="20" rx="4" ry="10" stroke="white" fill="none" /></svg>`,
+        grass: `<svg viewBox="0 0 80 80"><path d="M20 70 Q35 30 40 70" stroke="white" fill="none" /><path d="M40 70 Q45 20 60 70" stroke="white" fill="none" /></svg>`,
+        sprout: `<svg viewBox="0 0 80 80"><line x1="40" y1="70" x2="40" y2="40" stroke="white" stroke-width="1.5" /><path d="M40 45 C25 35, 20 45, 40 55" stroke="white" fill="none" /></svg>`
+    };
+    return svgs[type] || svgs.sprout;
 }
 
 function createPlantElement(x, y, scale, type) {
-    function createPlantElement(x, y, scale, type) {
     const plantDiv = document.createElement("div");
     plantDiv.classList.add("plant");
     plantDiv.style.left = `${x}px`;
@@ -148,18 +98,48 @@ function createPlantElement(x, y, scale, type) {
     setTimeout(() => plantDiv.classList.add("visible"), 100);
 }
 
-function updateMessage() {
-    const count = kairoData.plants.length;
-    if (count === 0) messageEl.innerText = "El jardín espera tu primera semilla.";
-    else if (count < 10) messageEl.innerText = "Cada brote es un testimonio de tu tiempo.";
-    else messageEl.innerText = "Tu bosque de introspección se expande.";
+function renderPlants() {
+    garden.innerHTML = "";
+    kairoData.plants.forEach(p => createPlantElement(p.x, p.y, p.scale, p.type));
 }
 
-/* =========================================
-   3. Eventos y UI
-   ========================================= */
+// 4. LÓGICA DE DATOS
+function loadData() {
+    const stored = localStorage.getItem("kairoData");
+    if (stored) {
+        kairoData = JSON.parse(stored);
+        renderPlants();
+    }
+}
 
-// Selección de Mood
+function saveData() {
+    localStorage.setItem("kairoData", JSON.stringify(kairoData));
+}
+
+function addRandomPlant(mood) {
+    const x = Math.random() * 4600 + 200;
+    const y = Math.random() * (window.innerHeight - 350) + 150;
+    const scale = 0.8 + Math.random() * 0.6;
+    
+    let type = "sprout";
+    if (mood === "good") type = Math.random() > 0.5 ? "sunflower" : "lotus";
+    if (mood === "neutral") type = "reed";
+    if (mood === "bad") type = "grass";
+
+    const newPlant = { x, y, scale, type };
+    kairoData.plants.push(newPlant);
+    
+    saveData();
+    renderPlants();
+    
+    setTimeout(() => {
+        wrapper.scrollTo({ left: x - (window.innerWidth / 2), behavior: 'smooth' });
+    }, 400);
+}
+
+// 5. EVENTOS
+window.addEventListener("load", loadData);
+
 document.querySelectorAll("#mood-buttons button").forEach(btn => {
     btn.addEventListener("click", () => {
         document.querySelectorAll("#mood-buttons button").forEach(b => b.classList.remove("active"));
@@ -168,34 +148,19 @@ document.querySelectorAll("#mood-buttons button").forEach(btn => {
     });
 });
 
-// Registro de Día
-saveDayBtn.addEventListener("click", () => {
+document.getElementById("save-day").addEventListener("click", () => {
     const hours = parseFloat(hoursInput.value);
-    
-    if (isNaN(hours) || hours < 0) {
-        alert("Por favor, ingresa un tiempo válido.");
-        return;
-    }
+    if (isNaN(hours)) return alert("Ingresa las horas.");
+    if (!selectedMood) return alert("Selecciona un ánimo.");
 
-    if (!selectedMood) {
-        alert("Selecciona cómo te sientes hoy.");
-        return;
-    }
+    let count = Math.max(1, Math.round(hours / 2));
+    for (let i = 0; i < count; i++) addRandomPlant(selectedMood);
 
-    // Lógica: 1 planta por cada 2 horas (mínimo 1)
-    let plantCount = Math.max(1, Math.round(hours / 2));
-
-    for (let i = 0; i < plantCount; i++) {
-        addRandomPlant(selectedMood);
-    }
-
-    // Limpiar UI
     hoursInput.value = "";
     document.querySelectorAll("#mood-buttons button").forEach(b => b.classList.remove("active"));
     selectedMood = null;
 });
 
-// Scroll Horizontal con Rueda
 wrapper.addEventListener("wheel", (e) => {
     if (e.deltaY !== 0) {
         e.preventDefault();
@@ -203,82 +168,6 @@ wrapper.addEventListener("wheel", (e) => {
     }
 }, { passive: false });
 
-/* =========================================
-   4. Configuración (Backup/Reset)
-   ========================================= */
-
-settingsBtn.onclick = () => settingsPanel.classList.toggle("hidden");
-
-document.getElementById("backup-btn").onclick = () => {
-    const dataStr = JSON.stringify(kairoData);
-    const blob = new Blob([dataStr], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `kairo_jardin.json`;
-    a.click();
-};
-
-document.getElementById("restore-btn").onclick = () => document.getElementById("file-input").click();
-
-document.getElementById("file-input").onchange = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (event) => {
-        kairoData = JSON.parse(event.target.result);
-        saveData();
-        renderPlants();
-        updateMessage();
-        settingsPanel.classList.add("hidden");
-    };
-    reader.readAsText(file);
-};
-
-document.getElementById("reset-btn").onclick = () => {
-    if (confirm("¿Reiniciar el jardín? Se perderán todas las memorias.")) {
-        kairoData = { plants: [] };
-        saveData();
-        renderPlants();
-        updateMessage();
-        settingsPanel.classList.add("hidden");
-    }
-};
-
-/* =========================================
-   5. Diccionario Botánico (SVGs Actualizado)
-   ========================================= */
-
-function getPlantSVG(type) {
-    const svgs = {
-        sunflower: `
-        <svg viewBox="0 0 80 80">
-            <line x1="40" y1="70" x2="40" y2="35" stroke="white" stroke-width="1.5" />
-            <circle cx="40" cy="30" r="12" stroke="white" fill="none" stroke-dasharray="3 2" />
-            <circle cx="40" cy="30" r="5" fill="white" />
-            <path d="M40 55 Q30 45 40 45" stroke="white" fill="none" />
-            <path d="M40 55 Q50 45 40 45" stroke="white" fill="none" />
-        </svg>`,
-        lotus: `
-        <svg viewBox="0 0 80 80">
-            <path d="M40 70 L40 50 M40 50 Q20 50 40 25 Q60 50 40 50" stroke="white" fill="none" />
-            <path d="M40 50 Q10 60 30 35 Q40 50 40 50" stroke="white" fill="none" />
-            <path d="M40 50 Q70 60 50 35 Q40 50 40 50" stroke="white" fill="none" />
-        </svg>`,
-        reed: `
-        <svg viewBox="0 0 80 80">
-            <line x1="40" y1="70" x2="38" y2="20" stroke="white" stroke-width="1.5" />
-            <ellipse cx="38" cy="20" rx="4" ry="10" stroke="white" fill="none" />
-        </svg>`,
-        grass: `
-        <svg viewBox="0 0 80 80">
-            <path d="M20 70 Q35 30 40 70" stroke="white" fill="none" />
-            <path d="M40 70 Q45 20 60 70" stroke="white" fill="none" />
-        </svg>`,
-        sprout: `
-        <svg viewBox="0 0 80 80">
-            <line x1="40" y1="70" x2="40" y2="40" stroke="white" stroke-width="1.5" />
-            <path d="M40 45 C25 35, 20 45, 40 55" stroke="white" fill="none" />
-        </svg>`
-    };
-    return svgs[type] || svgs.sprout;
-}
+// Configuración básica
+document.getElementById("settings-button").onclick = () => document.getElementById("settings-panel").classList.toggle("hidden");
+document.getElementById("reset-btn").onclick = () => { if(confirm("¿Reiniciar?")) { kairoData={plants:[]}; saveData(); renderPlants(); } };
