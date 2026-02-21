@@ -44,11 +44,48 @@ body {
 .plant:hover .plant-message { opacity: 1; transform: translateY(-10px); }
 
 /* UI */
-#daily-check {
-    position: fixed; bottom: 100px; left: 50%;
-    transform: translateX(-50%); text-align: center;
-    background: rgba(0,0,0,0.5); padding: 20px;
-    border-radius: 20px; backdrop-filter: blur(10px);
+/* HUD Compacto abajo */
+#daily-check.hud-compact {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(20px);
+    padding: 10px 25px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 2000; /* Muy alto para que no lo tape nada, pero es pequeño */
+}
+
+.hud-row { display: flex; align-items: center; gap: 20px; }
+
+#hours-input {
+    background: none; border: none; color: white;
+    font-size: 18px; width: 50px; text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+
+#mood-buttons { display: flex; gap: 10px; }
+#mood-buttons button { 
+    background: none; border: none; font-size: 18px; 
+    cursor: pointer; opacity: 0.5; transition: 0.3s; 
+}
+#mood-buttons button.active { opacity: 1; transform: scale(1.3); }
+
+#save-day {
+    background: white; color: black; border: none;
+    padding: 8px 15px; border-radius: 20px;
+    font-size: 10px; font-weight: bold; letter-spacing: 1px; cursor: pointer;
+}
+
+/* Z-index de plantas para que la leyenda se vea SIEMPRE */
+.plant { z-index: 10; }
+.plant:hover { z-index: 1001; } /* Sube por encima del HUD al pasar el mouse */
+
+.plant-message {
+    bottom: 110%;
+    pointer-events: auto; /* Para poder leer con calma */
 }
 .question { margin-bottom: 10px; font-weight: 300; }
 #hours-input {
