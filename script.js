@@ -1,8 +1,8 @@
 /* =========================================
-   KAIRO — Script Refactorizado y Corregido
+   KAIRO — CORE ENGINE (v3.0)
    ========================================= */
 
-// 1. BASE DE DATOS (Primero definimos todo lo que usaremos)
+// 1. BASE DE DATOS: 80 Frases Filosóficas KAIRO
 const kairoPhrases = [
     "Ignorar el ruido no es lo mismo que el silencio.", "La resistencia es una forma de crecimiento.",
     "Lo que evitas te domina.", "Tu atención es el único recurso que no recuperas.",
@@ -29,7 +29,7 @@ const kairoPhrases = [
     "El algoritmo no sabe quién eres, solo qué deseas.", "¿Cuándo fue la última vez que te aburriste?",
     "Buscas respuestas en lugares que no tienen tus preguntas.", "La conexión digital suele ser desconexión humana.",
     "Estás aquí. ¿Pero dónde está tu mente?", "Un scroll infinito no llena un vacío infinito.",
-    "Mira hacia arriba. El cielo no tiene píxeles.", "Tu vida ocurre fuera de este marco.",
+    "Mira hacia arriba. El cielo no tiene pílexes.", "Tu vida ocurre fuera de este marco.",
     "¿Qué estás evitando mirar ahora mismo?", "La notificación es el grito de un extraño.",
     "No eres un usuario, eres un ser humano.", "El mundo es más grande que 6 pulgadas.",
     "¿Cuántos momentos perdiste por intentar capturarlos?", "La productividad es una trampa sin propósito.",
@@ -46,52 +46,60 @@ const kairoPhrases = [
     "Deja que las hojas caigan. Es parte del ciclo.", "Bienvenido a Kairo. Aquí, tú eres el centro."
 ];
 
+// 2. BIBLIOTECA BOTÁNICA (Especies, Leyendas y Dibujos)
 const botanicalLibrary = {
-    sunflower: { name: "Girasol de Kairo", legend: "Busca la luz en los días cortos." },
-    lotus: { name: "Loto Zen", legend: "Pureza que emerge del caos." },
-    reed: { name: "Junco de Laguna", legend: "Se dobla, pero nunca se quiebra." },
-    grass: { name: "Césped de Seda", legend: "Fuerza en la comunidad pequeña." },
-    sprout: { name: "Brote Primario", legend: "Un impulso invisible de cambio." }
+    sunflower: {
+        name: "Girasol de Kairo",
+        legend: "Busca la luz incluso en los días más cortos.",
+        svg: `<svg viewBox="0 0 80 80"><line x1="40" y1="70" x2="40" y2="35" stroke="white" stroke-width="1.5" /><circle cx="40" cy="30" r="12" stroke="white" fill="none" stroke-dasharray="3 2" /><circle cx="40" cy="30" r="5" fill="white" /><path d="M40 55 Q30 45 40 45" stroke="white" fill="none" /><path d="M40 55 Q50 45 40 45" stroke="white" fill="none" /></svg>`
+    },
+    lotus: {
+        name: "Loto Zen",
+        legend: "La pureza que emerge del caos cotidiano.",
+        svg: `<svg viewBox="0 0 80 80"><path d="M40 70 L40 50 M40 50 Q20 50 40 25 Q60 50 40 50" stroke="white" fill="none" /><path d="M40 50 Q10 60 30 35 Q40 50 40 50" stroke="white" fill="none" /><path d="M40 50 Q70 60 50 35 Q40 50 40 50" stroke="white" fill="none" /></svg>`
+    },
+    reed: {
+        name: "Junco de Laguna",
+        legend: "Se dobla ante el tiempo, pero nunca se quiebra.",
+        svg: `<svg viewBox="0 0 80 80"><line x1="40" y1="70" x2="38" y2="20" stroke="white" stroke-width="1.5" /><ellipse cx="38" cy="20" rx="4" ry="10" stroke="white" fill="none" /></svg>`
+    },
+    grass: {
+        name: "Césped de Seda",
+        legend: "La fuerza de lo pequeño cuando crece en comunidad.",
+        svg: `<svg viewBox="0 0 80 80"><path d="M20 70 Q35 30 40 70" stroke="white" fill="none" /><path d="M40 70 Q45 20 60 70" stroke="white" fill="none" /></svg>`
+    },
+    sprout: {
+        name: "Brote Primario",
+        legend: "Todo gran cambio comienza con un impulso invisible.",
+        svg: `<svg viewBox="0 0 80 80"><line x1="40" y1="70" x2="40" y2="40" stroke="white" stroke-width="1.5" /><path d="M40 45 C25 35, 20 45, 40 55" stroke="white" fill="none" /></svg>`
+    }
 };
 
-// 2. ESTADO INICIAL
+// 3. ESTADO Y SELECTORES
 let kairoData = { plants: [] };
 let selectedMood = null;
 
 const garden = document.getElementById("garden");
 const wrapper = document.getElementById("garden-wrapper");
-const messageEl = document.getElementById("garden-message");
 const hoursInput = document.getElementById("hours-input");
 
-// 3. FUNCIONES DE DIBUJO
-function getPlantSVG(type) {
-    const svgs = {
-        sunflower: `<svg viewBox="0 0 80 80"><line x1="40" y1="70" x2="40" y2="35" stroke="white" stroke-width="1.5" /><circle cx="40" cy="30" r="12" stroke="white" fill="none" stroke-dasharray="3 2" /><circle cx="40" cy="30" r="5" fill="white" /><path d="M40 55 Q30 45 40 45" stroke="white" fill="none" /><path d="M40 55 Q50 45 40 45" stroke="white" fill="none" /></svg>`,
-        lotus: `<svg viewBox="0 0 80 80"><path d="M40 70 L40 50 M40 50 Q20 50 40 25 Q60 50 40 50" stroke="white" fill="none" /><path d="M40 50 Q10 60 30 35 Q40 50 40 50" stroke="white" fill="none" /><path d="M40 50 Q70 60 50 35 Q40 50 40 50" stroke="white" fill="none" /></svg>`,
-        reed: `<svg viewBox="0 0 80 80"><line x1="40" y1="70" x2="38" y2="20" stroke="white" stroke-width="1.5" /><ellipse cx="38" cy="20" rx="4" ry="10" stroke="white" fill="none" /></svg>`,
-        grass: `<svg viewBox="0 0 80 80"><path d="M20 70 Q35 30 40 70" stroke="white" fill="none" /><path d="M40 70 Q45 20 60 70" stroke="white" fill="none" /></svg>`,
-        sprout: `<svg viewBox="0 0 80 80"><line x1="40" y1="70" x2="40" y2="40" stroke="white" stroke-width="1.5" /><path d="M40 45 C25 35, 20 45, 40 55" stroke="white" fill="none" /></svg>`
-    };
-    return svgs[type] || svgs.sprout;
-}
-
-function createPlantElement(x, y, scale, type) {
+// 4. MOTOR DE RENDERIZADO
+function createPlantElement(p) {
     const plantDiv = document.createElement("div");
     plantDiv.classList.add("plant");
-    plantDiv.style.left = `${x}px`;
-    plantDiv.style.top = `${y}px`;
-    plantDiv.style.transform = `scale(${scale})`;
+    plantDiv.style.left = `${p.x}px`;
+    plantDiv.style.top = `${p.y}px`;
+    plantDiv.style.transform = `scale(${p.scale})`;
     
-    const species = botanicalLibrary[type] || botanicalLibrary.sprout;
-    const randomPhrase = kairoPhrases[Math.floor(Math.random() * kairoPhrases.length)];
+    const species = botanicalLibrary[p.type] || botanicalLibrary.sprout;
     
     plantDiv.innerHTML = `
         <div class="plant-message">
             <strong>${species.name}</strong>
             <span class="plant-legend">${species.legend}</span>
-            <p>"${randomPhrase}"</p>
+            <p>"${p.phrase}"</p>
         </div>
-        ${getPlantSVG(type)}
+        ${species.svg}
     `;
     
     garden.appendChild(plantDiv);
@@ -100,10 +108,35 @@ function createPlantElement(x, y, scale, type) {
 
 function renderPlants() {
     garden.innerHTML = "";
-    kairoData.plants.forEach(p => createPlantElement(p.x, p.y, p.scale, p.type));
+    kairoData.plants.forEach(createPlantElement);
 }
 
-// 4. LÓGICA DE DATOS
+// 5. LÓGICA DE CRECIMIENTO
+function addRandomPlant(mood) {
+    const marginX = 200;
+    const x = Math.random() * (4600) + marginX;
+    // Posición Y en la zona de "suelo"
+    const y = (window.innerHeight * 0.75) + (Math.random() * 80);
+    const scale = 0.8 + Math.random() * 0.6;
+    
+    let type = "sprout";
+    if (mood === "good") type = Math.random() > 0.5 ? "sunflower" : "lotus";
+    if (mood === "neutral") type = "reed";
+    if (mood === "bad") type = "grass";
+
+    const phrase = kairoPhrases[Math.floor(Math.random() * kairoPhrases.length)];
+
+    const newPlant = { x, y, scale, type, phrase };
+    kairoData.plants.push(newPlant);
+    
+    saveData();
+    renderPlants();
+
+    wrapper.scrollTo({ left: x - (window.innerWidth / 2), behavior: 'smooth' });
+}
+
+// 6. GESTIÓN DE DATOS
+function saveData() { localStorage.setItem("kairoData", JSON.stringify(kairoData)); }
 function loadData() {
     const stored = localStorage.getItem("kairoData");
     if (stored) {
@@ -112,62 +145,40 @@ function loadData() {
     }
 }
 
-function saveData() {
-    localStorage.setItem("kairoData", JSON.stringify(kairoData));
-}
-
-function addRandomPlant(mood) {
-    const x = Math.random() * 4600 + 200;
-    const y = Math.random() * (window.innerHeight - 350) + 150;
-    const scale = 0.8 + Math.random() * 0.6;
-    
-    let type = "sprout";
-    if (mood === "good") type = Math.random() > 0.5 ? "sunflower" : "lotus";
-    if (mood === "neutral") type = "reed";
-    if (mood === "bad") type = "grass";
-
-    const newPlant = { x, y, scale, type };
-    kairoData.plants.push(newPlant);
-    
-    saveData();
-    renderPlants();
-    
-    setTimeout(() => {
-        wrapper.scrollTo({ left: x - (window.innerWidth / 2), behavior: 'smooth' });
-    }, 400);
-}
-
-// 5. EVENTOS
-window.addEventListener("load", loadData);
-
+// 7. EVENTOS DE INTERFAZ
 document.querySelectorAll("#mood-buttons button").forEach(btn => {
-    btn.addEventListener("click", () => {
+    btn.onclick = () => {
         document.querySelectorAll("#mood-buttons button").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         selectedMood = btn.dataset.mood;
-    });
+    };
 });
 
-document.getElementById("save-day").addEventListener("click", () => {
+document.getElementById("save-day").onclick = () => {
     const hours = parseFloat(hoursInput.value);
-    if (isNaN(hours)) return alert("Ingresa las horas.");
-    if (!selectedMood) return alert("Selecciona un ánimo.");
+    if (!hours || !selectedMood) return alert("Por favor, indica las horas y tu estado de ánimo.");
 
-    let count = Math.max(1, Math.round(hours / 2));
-    for (let i = 0; i < count; i++) addRandomPlant(selectedMood);
+    // Una planta por cada 2 horas (mínimo 1)
+    const count = Math.max(1, Math.round(hours / 2));
+    for(let i=0; i<count; i++) {
+        setTimeout(() => addRandomPlant(selectedMood), i * 300);
+    }
 
+    // Reset Interfaz
     hoursInput.value = "";
     document.querySelectorAll("#mood-buttons button").forEach(b => b.classList.remove("active"));
     selectedMood = null;
-});
+};
 
-wrapper.addEventListener("wheel", (e) => {
-    if (e.deltaY !== 0) {
-        e.preventDefault();
-        wrapper.scrollLeft += e.deltaY;
-    }
-}, { passive: false });
-
-// Configuración básica
+// Configuración y Reset
 document.getElementById("settings-button").onclick = () => document.getElementById("settings-panel").classList.toggle("hidden");
-document.getElementById("reset-btn").onclick = () => { if(confirm("¿Reiniciar?")) { kairoData={plants:[]}; saveData(); renderPlants(); } };
+document.getElementById("reset-btn").onclick = () => {
+    if(confirm("¿Estás seguro de reiniciar tu jardín? Esta acción no se puede deshacer.")) {
+        kairoData = { plants: [] };
+        saveData();
+        renderPlants();
+    }
+};
+
+// Inicialización
+window.onload = loadData;
