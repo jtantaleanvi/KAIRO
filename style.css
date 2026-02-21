@@ -1,11 +1,13 @@
-:root{
+/* =========================================
+   KAIRO — Identidad Visual
+   ========================================= */
+
+:root {
     --text: #ffffff;
     --bg: #000000;
+    --accent: rgba(255, 255, 255, 0.6);
+    --border: rgba(255, 255, 255, 0.2);
 }
-
-/* ===============================
-   KAIRO — Estilo Base
-   =============================== */
 
 * {
     margin: 0;
@@ -14,215 +16,248 @@
 }
 
 body {
-    margin: 0;
-    background:
+    background: 
         radial-gradient(circle at 20% 30%, #111 0%, transparent 40%),
         radial-gradient(circle at 80% 70%, #0a0a0a 0%, transparent 40%),
         #000;
-    color: white;
+    color: var(--text);
     font-family: 'Inter', sans-serif;
+    overflow: hidden; /* Evita que la página rebote */
+    user-select: none;
 }
-/* 🌑 Contenedor principal */
+
+/* 🌑 Contenedor Principal */
 #app {
     width: 100vw;
     height: 100vh;
     position: relative;
-    overflow: hidden;
 }
 
-/* 🌿 Wrapper horizontal expandido */
+/* 🌿 Jardín Horizontal */
 #garden-wrapper {
-    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    position: absolute;
+    top: 0;
+    left: 0;
     z-index: 1;
 }
 
-#garden-ui{
-    position: fixed;
-    left: 50%;
-    top: 55%;
-    transform: translate(-50%, -50%);
-    z-index: 20;
-}
-}
-#garden-wrapper {
-    width: 5000px;
-    height: 100%;
-    position: relative;   
-    left: 0;
-    top: 0;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-behavior: smooth;
-}
-
-/* Ocultar scrollbar */
+/* Ocultar barra de scroll para máxima inmersión */
 #garden-wrapper::-webkit-scrollbar {
     display: none;
 }
-#garden-wrapper {
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-behavior: smooth;
-}
 
-@keyframes breathe {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-4px); }
-    100% { transform: translateY(0px); }
-}
-
-.plant {
-    opacity: 0;
-    transition: opacity 2s ease;
-}
-
-.plant.visible {
-    opacity: 1;
-}
-/* 🌱 Jardín */
 #garden {
     position: relative;
-    width: 5000px;
+    width: 5000px; /* Extensión del ecosistema */
     height: 100vh;
+    background: linear-gradient(to bottom, transparent 70%, rgba(255,255,255,0.03) 100%);
 }
 
-/* 🌫️ Capa de clima */
 #weather-layer {
     position: absolute;
     width: 5000px;
     height: 100%;
     pointer-events: none;
-    z-index: 0;
+    z-index: 2;
 }
-/* 🌿 Planta base */
+
+/* 🌱 Estilo de las Plantas */
 .plant {
     position: absolute;
     width: 80px;
     height: 80px;
-    border: 1px solid white;
-    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     opacity: 0;
-    transform: scale(0.8);
-    transition: transform 1.5s ease, opacity 1.5s ease;
+    transform: scale(0.5) translateY(20px);
+    transition: transform 2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 2s ease;
 }
 
 .plant.visible {
     opacity: 1;
-    transform: scale(1);
-}
-.plant svg {
-    width: 80px;
-    height: 80px;
-    opacity: 0.9;
+    transform: scale(1) translateY(0);
 }
 
-.plant:hover svg {
-    opacity: 1;
-    transform: scale(1.05);
-}
-/* 🧠 Mensajes */
-#message-container {
-    position: absolute;
-    bottom: 40px;
+.plant svg {
     width: 100%;
+    height: 100%;
+    stroke: white;
+    stroke-width: 1.5;
+    fill: none;
+    animation: sway 5s ease-in-out infinite alternate;
+    transform-origin: bottom center;
+}
+
+@keyframes sway {
+    from { transform: rotate(-3deg); }
+    to { transform: rotate(3deg); }
+}
+
+/* 📋 Interfaz de Registro (Daily Check) */
+#daily-check {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
     text-align: center;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 20px;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.question {
     font-weight: 300;
     font-size: 14px;
     letter-spacing: 1px;
-    opacity: 0.7;
+    margin-bottom: 15px;
+    opacity: 0.8;
 }
 
-/* ⚙️ Botón configuración */
+.question.small {
+    margin-top: 20px;
+    font-size: 12px;
+}
+
+#hours-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid white;
+    color: white;
+    text-align: center;
+    font-size: 24px;
+    font-family: 'Inter', sans-serif;
+    width: 80px;
+    outline: none;
+    padding-bottom: 5px;
+}
+
+#mood-buttons {
+    margin: 15px 0;
+}
+
+#mood-buttons button {
+    background: none;
+    border: 1px solid var(--border);
+    color: white;
+    font-size: 20px;
+    padding: 8px 12px;
+    margin: 0 5px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#mood-buttons button:hover, #mood-buttons button.active {
+    background: white;
+    transform: scale(1.1);
+}
+
+#mood-buttons button.active {
+    box-shadow: 0 0 15px rgba(255,255,255,0.3);
+}
+
+#save-day {
+    margin-top: 15px;
+    padding: 10px 25px;
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+#save-day:hover {
+    background: white;
+    color: black;
+}
+
+/* 🧠 Mensajes y Configuración */
+#message-container {
+    position: fixed;
+    bottom: 40px;
+    width: 100%;
+    text-align: center;
+    z-index: 5;
+}
+
+#garden-message {
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    opacity: 0.5;
+}
+
 #settings-button {
-    position: absolute;
-    top: 20px;
-    right: 20px;
+    position: fixed;
+    top: 30px;
+    right: 30px;
     background: none;
     border: none;
     color: white;
-    font-size: 18px;
+    font-size: 24px;
     cursor: pointer;
-    opacity: 0.6;
+    z-index: 100;
+    opacity: 0.4;
+    transition: 0.3s;
 }
 
-#settings-button:hover {
-    opacity: 1;
-}
+#settings-button:hover { opacity: 1; }
 
-/* 🌿 Panel configuración */
 #settings-panel {
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    background: rgba(0,0,0,0.9);
-    border: 1px solid white;
-    padding: 20px;
-    width: 220px;
-    z-index: 10;
+    position: fixed;
+    top: 80px;
+    right: 30px;
+    background: rgba(0, 0, 0, 0.95);
+    border: 1px solid var(--border);
+    padding: 25px;
+    width: 260px;
+    z-index: 100;
+    backdrop-filter: blur(10px);
 }
 
-#settings-panel h2 {
-    font-weight: 300;
-    margin-bottom: 15px;
-}
+#settings-panel h2 { font-weight: 300; font-size: 18px; margin-bottom: 5px; }
+#settings-panel p { font-size: 10px; opacity: 0.5; margin-bottom: 20px; }
 
 #settings-panel button {
     width: 100%;
+    padding: 10px;
     margin-bottom: 10px;
-    padding: 8px;
-    background: none;
-    border: 1px solid white;
+    background: transparent;
+    border: 1px solid var(--border);
     color: white;
     cursor: pointer;
-    font-weight: 300;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 #settings-panel button:hover {
-    background: white;
-    color: black;
+    border-color: white;
 }
 
-.hidden {
-    display: none;
-}
-
-/* 🎧 Botón sonido */
 #sound-toggle {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
     background: none;
     border: none;
     color: white;
-    font-size: 18px;
+    font-size: 20px;
     cursor: pointer;
-    opacity: 0.6;
-}
-#sound-toggle:hover {
-    opacity: 1;
-}
-#daily-check{
-    position: fixed;
-    bottom: 120px;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-}
-#mood-buttons button{
-    background: none;
-    border: 1px solid white;
-    color: white;
-    font-size: 18px;
-    padding: 6px 10px;
-    margin: 4px;
-    cursor: pointer;
+    opacity: 0.4;
+    z-index: 100;
 }
 
-#mood-buttons button.active{
-    transform: scale(1.2);
-    background: white;
-    color: black;
-}
-body {
-    user-select: none;
-}
+.hidden { display: none; }
