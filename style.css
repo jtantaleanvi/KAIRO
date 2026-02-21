@@ -208,6 +208,21 @@ body {
     transform: translateX(-50%);
     text-align: center;
 }
+#mood-buttons button{
+    background: none;
+    border: 1px solid white;
+    color: white;
+    font-size: 18px;
+    padding: 6px 10px;
+    margin: 4px;
+    cursor: pointer;
+}
+
+#mood-buttons button.active{
+    transform: scale(1.2);
+    background: white;
+    color: black;
+}
 body {
     user-select: none;
 }
