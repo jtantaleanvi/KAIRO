@@ -53,9 +53,13 @@ body {
 
 #garden {
     position: relative;
-    width: 5000px; /* Extensión del ecosistema */
+    width: 5000px;
     height: 100vh;
-    background: linear-gradient(to bottom, transparent 70%, rgba(255,255,255,0.03) 100%);
+    /* Gradiente sutil para marcar el horizonte */
+    background: linear-gradient(to bottom, 
+        transparent 60%, 
+        rgba(255,255,255,0.02) 85%, 
+        rgba(255,255,255,0.05) 100%);
 }
 
 #weather-layer {
@@ -99,18 +103,73 @@ body {
     to { transform: rotate(3deg); }
 }
 
-/* 📋 Interfaz de Registro (Daily Check) */
+/* 📋 Interfaz de Registro (Estilo Píldora HUD) */
 #daily-check {
     position: fixed;
-    bottom: 100px;
+    bottom: 30px; /* Lo bajamos para que sea un HUD de pie */
     left: 50%;
     transform: translateX(-50%);
-    z-index: 10;
+    z-index: 2000; /* Prioridad máxima sobre las plantas */
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: rgba(10, 10, 10, 0.85); /* Fondo oscuro profundo */
+    padding: 12px 25px;
+    border-radius: 100px; /* Forma de píldora */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* Ocultar las preguntas de texto para que sea minimalista */
+#daily-check .question {
+    display: none;
+}
+
+#hours-input {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--border);
+    color: white;
     text-align: center;
-    background: rgba(0, 0, 0, 0.4);
-    padding: 20px;
-    border-radius: 20px;
-    backdrop-filter: blur(5px);
+    font-size: 20px;
+    width: 60px;
+    outline: none;
+    transition: 0.3s;
+}
+
+#hours-input:focus {
+    border-bottom-color: white;
+}
+
+#mood-buttons {
+    margin: 0;
+    display: flex;
+    gap: 10px;
+}
+
+#mood-buttons button {
+    border: none;
+    font-size: 22px;
+    padding: 5px;
+    background: none;
+    opacity: 0.5;
+    transition: 0.3s;
+}
+
+#mood-buttons button.active, #mood-buttons button:hover {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+#save-day {
+    margin-top: 0; /* Alineado en la fila */
+    padding: 8px 20px;
+    background: white;
+    color: black;
+    font-weight: 600;
+    border: none;
+    border-radius: 50px;
 }
 
 .question {
@@ -183,15 +242,41 @@ body {
     color: black;
 }
 
-/* 🧠 Mensajes y Configuración */
-#message-container {
-    position: fixed;
-    bottom: 40px;
-    width: 100%;
+/* 💬 Mensaje Flotante de las Plantas */
+.plant-message {
+    position: absolute;
+    bottom: 110%; /* Aparece por encima de la planta */
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid var(--border);
+    padding: 15px;
+    width: 220px;
+    border-radius: 12px;
+    pointer-events: none;
+    opacity: 0;
+    transition: 0.3s ease;
     text-align: center;
-    z-index: 5;
+    z-index: 3000;
 }
 
+.plant:hover .plant-message {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-10px);
+}
+
+.plant-message strong {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: white;
+}
+
+.plant-message p {
+    font-size: 12px;
+    font-style: italic;
+    opacity: 0.8;
+}
 #garden-message {
     font-size: 13px;
     font-weight: 300;
