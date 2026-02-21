@@ -4,42 +4,55 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>KAIRO — Jardín de Introspección</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
+
     <div id="app">
+
         <div id="garden-wrapper">
             <div id="weather-layer"></div>
             <div id="garden"></div>
         </div>
 
-        <div id="daily-check" class="hud-compact">
-    <div class="hud-row">
-        <input id="hours-input" type="number" step="0.1" placeholder="0.0">
-        <div id="mood-buttons">
-            <button data-mood="good">🙂</button>
-            <button data-mood="neutral">😐</button>
-            <button data-mood="bad">🙁</button>
-        </div>
-        <button id="save-day">REGISTRAR</button>
-    </div>
-</div>
-
         <div id="message-container">
             <p id="garden-message">El jardín está en calma.</p>
         </div>
 
-        <button id="settings-button">⚙︎</button>
+        <div id="daily-check">
+            <div class="question">¿Cuántas horas usaste el móvil hoy?</div>
+            <input id="hours-input" type="number" step="0.1" min="0" max="24" placeholder="0.0">
+
+            <div class="question small">¿Cómo te sentiste?</div>
+            <div id="mood-buttons">
+                <button data-mood="good" title="Bien">🙂</button>
+                <button data-mood="neutral" title="Neutral">😐</button>
+                <button data-mood="bad" title="Mal">🙁</button>
+            </div>
+
+            <button id="save-day">Registrar en Kairo</button>
+        </div>
+
+        <button id="settings-button" title="Configuración">⚙︎</button>
+        
         <div id="settings-panel" class="hidden">
             <h2>KAIRO</h2>
-            <button id="backup-btn">Respaldar jardín</button>
+            <p>Gestión del Ecosistema</p>
+            <hr style="border: 0.5px solid rgba(255,255,255,0.2); margin: 15px 0;">
+            <button id="backup-btn">Respaldar jardín (JSON)</button>
             <button id="restore-btn">Restaurar jardín</button>
-            <button id="reset-btn">Reiniciar jardín</button>
+            <button id="reset-btn" style="color: #ff4444;">Reiniciar ecosistema</button>
+            
             <input type="file" id="file-input" accept=".json" class="hidden" />
         </div>
+
         <button id="sound-toggle">🔈</button>
+
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
