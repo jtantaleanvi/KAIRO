@@ -14,17 +14,17 @@
             <div id="garden"></div>
         </div>
 
-        <div id="daily-check">
-            <div class="question">¿Cuántas horas usaste el móvil hoy?</div>
-            <input id="hours-input" type="number" step="0.1" min="0" max="24" placeholder="7.5">
-            <div class="question small">¿Cómo te sentiste?</div>
-            <div id="mood-buttons">
-                <button data-mood="good">🙂</button>
-                <button data-mood="neutral">😐</button>
-                <button data-mood="bad">🙁</button>
-            </div>
-            <button id="save-day">Registrar</button>
+        <div id="daily-check" class="hud-compact">
+    <div class="hud-row">
+        <input id="hours-input" type="number" step="0.1" placeholder="0.0">
+        <div id="mood-buttons">
+            <button data-mood="good">🙂</button>
+            <button data-mood="neutral">😐</button>
+            <button data-mood="bad">🙁</button>
         </div>
+        <button id="save-day">REGISTRAR</button>
+    </div>
+</div>
 
         <div id="message-container">
             <p id="garden-message">El jardín está en calma.</p>
