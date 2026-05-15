@@ -204,7 +204,7 @@ saveDayBtn.addEventListener("click", () => {
         return;
     }
 
-    let plantCount = Math.max(1, Math.round(hours / 2));
+    let plantCount = 1;
 
     for (let i = 0; i < plantCount; i++) {
         addRandomPlant(selectedMood);
