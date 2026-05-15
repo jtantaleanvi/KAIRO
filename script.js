@@ -98,7 +98,7 @@ function saveData() {
    ========================================= */
 
 function addRandomPlant(mood) {
-    const x = Math.random() * 4600 + 200;
+    const x = 300 + (kairoData.plants.length * 120);
     // Posición Y ajustada para que no tape el HUD inferior
     const y = (window.innerHeight * 0.65) + (Math.random() * 100); 
     const scale = 0.7 + Math.random() * 0.6;
@@ -116,6 +116,10 @@ function addRandomPlant(mood) {
     saveData();
     renderPlants();
     updateMessage();
+   wrapper.scrollTo({
+    left: x - window.innerWidth / 2,
+    behavior: "smooth"
+});
 }
 
 function renderPlants() {
