@@ -192,10 +192,11 @@ document.querySelectorAll("#mood-buttons button").forEach(btn => {
 });
 
 saveDayBtn.addEventListener("click", () => {
+
     const hours = parseFloat(hoursInput.value);
-    
+
     if (isNaN(hours) || hours < 0) {
-        alert("Ingresa un número de horas válido.");
+        alert("Ingresa un número válido.");
         return;
     }
 
@@ -204,14 +205,19 @@ saveDayBtn.addEventListener("click", () => {
         return;
     }
 
-    let plantCount = 1;
+    // 🌱 Solo una planta por día
+    addRandomPlant(selectedMood);
 
-    for (let i = 0; i < plantCount; i++) {
-        addRandomPlant(selectedMood);
-    }
-      updateWeather(selectedMood);
+    // 🌫️ actualizar clima
+    updateWeather(selectedMood);
+
+    // limpiar formulario
     hoursInput.value = "";
-    document.querySelectorAll("#mood-buttons button").forEach(b => b.classList.remove("active"));
+
+    document
+        .querySelectorAll("#mood-buttons button")
+        .forEach(b => b.classList.remove("active"));
+
     selectedMood = null;
 });
 
