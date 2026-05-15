@@ -65,7 +65,7 @@ const settingsPanel = document.getElementById("settings-panel");
 const saveDayBtn = document.getElementById("save-day");
 const hoursInput = document.getElementById("hours-input");
 const messageEl = document.getElementById("garden-message");
-
+const weatherLayer = document.getElementById("weather-layer");
 /* =========================================
    1. Inicialización y Carga
    ========================================= */
@@ -162,7 +162,23 @@ function updateMessage() {
     else if (count < 30) messageEl.innerText = "Tu ecosistema de memoria está floreciendo.";
     else messageEl.innerText = "Un bosque de tiempo se extiende ante ti.";
 }
+/* =========================================
+   Clima Emocional
+   ========================================= */
 
+function updateWeather(mood) {
+
+    weatherLayer.classList.remove("fog", "rain");
+
+    if (mood === "neutral") {
+        weatherLayer.classList.add("fog");
+    }
+
+    if (mood === "bad") {
+        weatherLayer.classList.add("fog");
+        weatherLayer.classList.add("rain");
+    }
+}
 /* =========================================
    3. Interacción y Eventos
    ========================================= */
@@ -193,7 +209,7 @@ saveDayBtn.addEventListener("click", () => {
     for (let i = 0; i < plantCount; i++) {
         addRandomPlant(selectedMood);
     }
-
+      updateWeather(selectedMood);
     hoursInput.value = "";
     document.querySelectorAll("#mood-buttons button").forEach(b => b.classList.remove("active"));
     selectedMood = null;
